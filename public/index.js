@@ -9,7 +9,6 @@ fetch('/teas').then(response => response.json())
             card.innerHTML = `
                 <img class="tea-photo" src="./images/${tea.img_src}" alt="test tea photo">  
                 <h2 class="tea-name">${tea.name}</h2>
-                <h3 class="tea-modality">${tea.modality}</h3>
             `;
 
             card.addEventListener('click', e => {
@@ -72,3 +71,23 @@ fetch('/teas').then(response => response.json())
         });
     })
 .catch(err => console.error(err));
+
+function searchTeas() {
+    let input = document.getElementById('searchBar');
+    let filter = input.value.toUpperCase();
+    let tileContainer = document.getElementById('tilesContainer');
+    let tileList = tileContainer.getElementsByClassName('tile');
+
+    for(let i = 0; i < tileList.length; i++) {
+        let teaName = tileList[i].getElementsByClassName('tea-name')[0].innerText;
+        
+        if(teaName.toUpperCase().substring(0, filter.length) == filter || teaName.toUpperCase().includes(" " + filter)) {
+            tileList[i].style.display = "";
+        }
+        else {
+            tileList[i].style.display = "none";
+        }
+    }
+}
+
+window.searchTeas = searchTeas;

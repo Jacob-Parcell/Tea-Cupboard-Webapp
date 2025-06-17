@@ -12,12 +12,10 @@ app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
 const db = require('./server/db.js');
-let teaData;
-let promise = db.getTableData().then(results => {teaData = results;});
 
 app.get('/teas', (req, res, next) => {
     console.log('call received');
-    res.status(200).send(teaData);
+    db.getTableData().then(results => {res.status(200).send(results);});
 });
 
 
@@ -38,13 +36,15 @@ app.get('/', (req, res) => {
             </header>
             
             <div class="search_header">
-            <input type="text" style="text-align: center;" placeholder="Search..">
-            <div>button bar: favorites, history, pick a tea for me</div>
-            <h2>List of checkboxes and filters</h2>
+            <input type="text" id="searchBar" onkeyup="searchTeas()" placeholder="Search.."></br>
+            <input type="checkbox" id="caffeinated">
+            <label for="caffeinated">Caffeinated</label>
+            <input type="checkbox" id="non-caffeinated">
+            <label for="non-caffeinated">Non-Caffeinated</label>
             </div>
 
             <main>
-                <section class="tiles-container">
+                <section class="tiles-container" id="tilesContainer">
                 </section>
             </main>
             <script src="index.js" type="text/javascript"></script>
