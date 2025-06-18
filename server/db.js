@@ -20,10 +20,9 @@ function getTableData() {
 }
 
 function getTeaByName(teaName) {
-    
     return new Promise((resolve, reject) => {
         db.serialize(() => {
-            db.get(`SELECT * FROM Teas WHERE name LIKE '%${teaName}%'`, (err, row) => {
+            db.get(`SELECT * FROM Teas WHERE name='${teaName}'`, (err, row) => {
                 
                 if(err) {
                     reject(err);
@@ -36,4 +35,4 @@ function getTeaByName(teaName) {
     });
 }
 
-module.exports = {getTableData};
+module.exports = {getTableData, getTeaByName};

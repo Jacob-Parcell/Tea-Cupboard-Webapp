@@ -14,10 +14,18 @@ app.use(morgan('tiny'));
 const db = require('./server/db.js');
 
 app.get('/teas', (req, res, next) => {
-    console.log('call received');
+    console.log('GET /teas received');
     db.getTableData().then(results => {res.status(200).send(results);});
 });
 
+app.get('/teas/:teaName', (req, res, next) => {
+    console.log('GET /teas/:teaName receieved');
+    db.getTeaByName(req.params.teaName).then(result => {res.status(200).send(result)});
+});
+
+app.post('/teas', (req, res, next) => {
+    console.log('POST received');
+});
 
 app.get('/', (req, res) => {
     let html = `
@@ -42,7 +50,9 @@ app.get('/', (req, res) => {
             <input type="checkbox" id="non-caffeinated">
             <label for="non-caffeinated">Non-Caffeinated</label>
             </div>
-
+            <div>
+                <button type="button" id="createTeaButton" onclick="addTeaClicked()">+</button>
+            </div>
             <main>
                 <section class="tiles-container" id="tilesContainer">
                 </section>

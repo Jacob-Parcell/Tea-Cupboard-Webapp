@@ -19,9 +19,26 @@ header {
     padding: 20px;
 }
 
+#searchBar {
+    font-size: 20px;
+}
+
 main {
     max-width: 800px;
     margin: 20px auto;
+}
+
+#createTeaButton {
+    position: fixed;
+    text-align: center;
+    right: 5%;
+    bottom: 5%;
+    font-size: 20px;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    font-size: 85px;
+    background-color: aquamarine;
 }
 
 .tiles-container {
@@ -54,4 +71,8 @@ main {
 dialog::backdrop {
     background-color: hsl(26 87.4% 68.5%);
     opacity: 0.5;
+}
+
+dialog {
+    font-size: 16px;
 }
