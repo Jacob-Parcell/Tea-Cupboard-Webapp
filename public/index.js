@@ -91,13 +91,13 @@ function addTeaClicked() {
 
     //html for tea creation form
     addTeaModal.innerHTML = '\
-    <form>\
+    <form action="/teas" method="post">\
         <label for="teaName">Tea Name:</label><br>\
         <input type="text" id="teaName" name="teaName"><br><br>\
         <p>Modality:</p>\
-        <input type="checkbox" id="looseLeaf" value="Loose Leaf">\
+        <input type="checkbox" id="looseLeaf" name="looseLeaf" value="Loose Leaf">\
         <label for="looseLeaf">Loose Leaf</label>\
-        <input type="checkbox" id="teabag" value="Teabag">\
+        <input type="checkbox" id="teabag" name="teabag" value="Teabag">\
         <label for="teabag">Teabag</label><br><br>\
         <label for="howToMake">How To Make: </label><br>\
         <input type="text" id="howToMake" name="howToMake"><br><br>\
@@ -108,7 +108,8 @@ function addTeaClicked() {
         <label for="flavor">Flavor Profile: </label><br>\
         <input type="text" id="flavor" name="flavor"><br><br>\
         <label for="health">Health Benefits: </label><br>\
-        <input type="text" id="health" name="health">\
+        <input type="text" id="health" name="health"><br><br>\
+        <input type="submit" id="submit" name="submit" value="Add Tea">\
     </form>';
 
     //allow user to click out of modal

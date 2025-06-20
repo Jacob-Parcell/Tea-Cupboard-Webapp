@@ -11,6 +11,8 @@ const morgan = require('morgan');
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
+let urlEncodedParser = bodyParser.urlencoded({ extended: false });
+
 const db = require('./server/db.js');
 
 app.get('/teas', (req, res, next) => {
@@ -23,8 +25,18 @@ app.get('/teas/:teaName', (req, res, next) => {
     db.getTeaByName(req.params.teaName).then(result => {res.status(200).send(result)});
 });
 
-app.post('/teas', (req, res, next) => {
+app.post('/teas', urlEncodedParser, (req, res, next) => {
     console.log('POST received');
+    console.log(req.body.teaName);
+
+    //before uncommenting the following code, fix modality and make sure other fields have correct param names
+
+    /*db.addTea(req.body).then(result => {
+        res.status(201).send(result);
+    }).catch(err => {
+        console.error('Error adding tea:', err);
+        res.status(500).send('Internal Server Error');
+    });*/
 });
 
 app.get('/', (req, res) => {

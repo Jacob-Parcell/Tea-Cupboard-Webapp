@@ -19,6 +19,21 @@ function getTableData() {
     });
 }
 
+function addNewTea(tea) {
+    return new Promise((resolve, reject) => {
+        db.serialize(() => {
+            db.run(`INSERT INTO Teas (name, modality, caffeinated, flavors, health_qualities, instructions) VALUES ('${tea.teaName}', '${tea.modality}', '${tea.caffeine_content}', '${tea.flavor}', '${tea.health}', '${instructions}');`, (err, row) => {
+                
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    resolve(row);
+                }
+            });
+        });
+    });}
+
 function getTeaByName(teaName) {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
