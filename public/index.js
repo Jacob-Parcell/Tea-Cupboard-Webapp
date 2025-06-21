@@ -100,7 +100,7 @@ function addTeaClicked() {
         <input type="checkbox" id="teabag" name="teabag" value="Teabag">\
         <label for="teabag">Teabag</label><br><br>\
         <label for="howToMake">How To Make: </label><br>\
-        <input type="text" id="howToMake" name="howToMake"><br><br>\
+        <input type="text" id="howToMake" name="instructions"><br><br>\
         <input type="radio" id="caffeinated" name="caffeine_content" value="caffeinated">\
         <label for="caffeinated">Caffeinated</label><br>\
         <input type="radio" id="non-caffeinated" name="caffeine_content" value="non-caffeinated">\

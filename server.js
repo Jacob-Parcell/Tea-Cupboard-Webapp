@@ -31,12 +31,12 @@ app.post('/teas', urlEncodedParser, (req, res, next) => {
 
     //before uncommenting the following code, fix modality and make sure other fields have correct param names
 
-    /*db.addTea(req.body).then(result => {
+    db.addNewTea(req.body).then(result => {
         res.status(201).send(result);
     }).catch(err => {
         console.error('Error adding tea:', err);
         res.status(500).send('Internal Server Error');
-    });*/
+    });
 });
 
 app.get('/', (req, res) => {
