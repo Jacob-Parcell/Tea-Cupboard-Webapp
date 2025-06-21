@@ -1,5 +1,6 @@
 const sqlite = require('sqlite3');
 const db = new sqlite.Database('./data/db.sqlite');
+const _ = require('lodash');
 
 
 function getTableData() {
@@ -110,7 +111,7 @@ function compareTeas(tea1, tea2) {
 
     let changes = [];
 
-    if(tea1 === tea2) {
+    if(_.isEqual(tea1, tea2)) {
         return -1;
     }
 
@@ -138,7 +139,7 @@ function compareTeas(tea1, tea2) {
         changes.push(`instructions='${tea2.instructions}'`);
     }
 
-    console.log(changes);
+    //console.log(changes);
 
     return changes;
 }

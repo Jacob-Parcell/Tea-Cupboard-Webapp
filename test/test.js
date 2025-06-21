@@ -21,4 +21,12 @@ describe('database helper functions', function() {
         let result = db.compareTeas(tea1, tea1Also);
         should.equal(result, -1);
     });
+
+    it('compareTeas() function should return an array containing the differences between objects in the format: attribute="newValue"', function() {
+        let result1 = db.compareTeas(tea1, tea1DifferentModality);
+        should.equal(result1.toString(), ["modality='Teabag'"].toString());
+
+        let result2 = db.compareTeas(tea1, tea2);
+        should.equal(result2.toString(), ["name='lavender'", "modality='Loose Leaf, Teabag'", "caffeinated='Caffeinated'", "flavors='lavender, rose, hibiscus'", "health_qualities='relieves headaches'", "instructions='steep for 2 minutes'"].toString());
+    });
 });
