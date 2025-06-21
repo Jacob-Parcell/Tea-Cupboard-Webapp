@@ -91,18 +91,22 @@ function updateTea(teaName, updatedTea) {
                 currentTea = result;
             });
 
-            let updateString = compareTeas;
-            /*
-            db.run(`UPDATE Teas SET **TODO** WHERE name='${teaName}'`, (err, row) => {
+            let updateString = compareTeas(currentTea, updatedTea).toString();
+
+            if(updateString) {
+                console.log('Sample query:');
+                console.log(`UPDATE Teas SET ${updateString} WHERE name='${teaName}'`);
                 
-                if(err) {
-                    reject(err);
-                }
-                else {
-                    resolve(row);
-                }
-            });
-            */
+                db.run(`UPDATE Teas SET ${updateString} WHERE name='${teaName}'`, (err, row) => {
+                    
+                    if(err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(row);
+                    }
+                });
+            }
         });
     }); 
 }
