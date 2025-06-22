@@ -42,7 +42,9 @@ fetch('/teas').then(response => response.json())
                             <li>Flavor Profile: ${tea.flavors}</li>
                             <li>Last Drank: ${tea.last_drank}</li>
                             <li>Health Benefits: ${tea.health_qualities}</li>
-                        </ul>`;
+                        </ul>
+                        <button class="delete-button" onclick="deleteTeaClicked(\'${tea.name}\')">Delete Tea</button>
+                        <button class="edit-button" onclick="">Edit Tea Info</button>`;
                     modal.showModal();
                 } 
                 else {
@@ -91,7 +93,7 @@ function addTeaClicked() {
 
     //html for tea creation form
     addTeaModal.innerHTML = '\
-    <form action="/teas" method="post">\
+    <form id="addTeaForm">\
         <label for="teaName">Tea Name:</label><br>\
         <input type="text" id="teaName" name="teaName"><br><br>\
         <p>Modality:</p>\
@@ -125,10 +127,40 @@ function addTeaClicked() {
         }
     });
 
+    document.body.appendChild(addTeaModal);
+
+    const form = addTeaModal.querySelector('#addTeaForm');
+    form.addEventListener('submit', async function(e) {
+        
+        e.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Send POST request
+        await fetch('/teas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        // Redirect to homepage
+        window.location.assign("http://localhost:4001/");
+    });
+
     addTeaModal.style = "font-size: 20px; width: 15%; text-align: center";
 
-    document.body.appendChild(addTeaModal);
     addTeaModal.showModal();
+}
+
+async function deleteTeaClicked(teaName) {
+    
+    await fetch(`/teas/${teaName}`, {
+        method: 'DELETE'
+    });
+
+    // Redirect to homepage
+    window.location.assign("http://localhost:4001/");
 }
 
 /* TODO add checkboxed functionality and implement searched method to clean code

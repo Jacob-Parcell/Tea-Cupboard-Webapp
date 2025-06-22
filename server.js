@@ -29,8 +29,6 @@ app.post('/teas', urlEncodedParser, (req, res, next) => {
     console.log('POST received');
     console.log(req.body.teaName);
 
-    //before uncommenting the following code, fix modality and make sure other fields have correct param names
-
     db.addNewTea(req.body).then(result => {
         res.status(201).send(result);
     }).catch(err => {
@@ -74,6 +72,16 @@ app.get('/', (req, res) => {
         </html>
     `;
     res.send(html);
+});
+
+app.delete('/teas/:teaName', (req, res, next) => {
+    console.log('DELETE /teas/:teaName received');
+    db.deleteTea(req.params.teaName).then(result => {
+        res.status(204).send();
+    }).catch(err => {
+        console.error('Error deleting tea:', err);
+        res.status(500).send('Internal Server Error');
+    });
 });
 
 

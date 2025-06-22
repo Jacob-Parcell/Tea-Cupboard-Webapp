@@ -143,9 +143,7 @@ function compareTeas(tea1, tea2) {
         changes.push(`instructions='${tea2.instructions}'`);
     }
 
-    //console.log(changes);
-
     return changes;
 }
 
-module.exports = {getTableData, getTeaByName, addNewTea, compareTeas};
+module.exports = {getTableData, getTeaByName, addNewTea, compareTeas, deleteTea};
