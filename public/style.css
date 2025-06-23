@@ -42,9 +42,10 @@ main {
 }
 
 .tiles-container {
-    display: flex;
+    display: grid;
     flex-wrap: wrap;
     gap: 20px;
+    grid-template-columns: auto auto;
 }
 
 .tea-photo {
@@ -64,8 +65,57 @@ main {
     text-align: center;
 }
 
+/*
 .tile:hover {
     transform: scale(1.05);
+}
+*/
+
+#addTeaModal {
+    font-size: 20px; 
+    width: 25%; 
+    text-align: center;
+}
+
+.addTeaTextBox {
+    width: 40%;
+}
+
+#addTeaForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.addTeaButton {
+    background-color: green;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    width: 40%;
+}
+
+.delete-button {
+    background-color: red;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    width: 40%;
+}
+
+.edit-button {
+    font-size: 15px;
+    background-color: orange;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    width: 40%;
 }
 
 dialog::backdrop {
@@ -75,4 +125,9 @@ dialog::backdrop {
 
 dialog {
     font-size: 16px;
+    flex: 1 0 300px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
 }

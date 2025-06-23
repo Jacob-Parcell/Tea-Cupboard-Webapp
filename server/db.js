@@ -36,7 +36,7 @@ function addNewTea(tea) {
 
     return new Promise((resolve, reject) => {
         db.serialize(() => {
-            db.run(`INSERT INTO Teas (name, modality, caffeinated, flavors, health_qualities, instructions, img_src) VALUES ('${tea.teaName}', '${tea.modality}', '${tea.caffeine_content}', '${tea.flavor}', '${tea.health}', '${tea.instructions}', '${tea.img_src}');`, (err, row) => {
+            db.run(`INSERT INTO Teas (name, modality, caffeinated, flavors, health_qualities, instructions, img_src) VALUES ('${tea.teaName}', '${tea.modality}', '${tea.caffeine_content}', '${tea.flavors}', '${tea.health_qualities}', '${tea.instructions}', '${tea.img_src}');`, (err, row) => {
                 
                 if(err) {
                     reject(err);
@@ -82,31 +82,56 @@ function deleteTea(teaName) {
 }
 
 function updateTea(teaName, updatedTea) {
-        return new Promise((resolve, reject) => {
-        db.serialize(() => {
+    return new Promise((resolve, reject) => {
             
-            let currentTea;
-
+        let currentTea;
+        db.serialize(() => {
             getTeaByName(teaName).then(result => {
                 currentTea = result;
-            });
 
-            let updateString = compareTeas(currentTea, updatedTea).toString();
+                console.log("currentTea: " + currentTea);
+                console.log("updatedTea: " + updatedTea);
 
-            if(updateString) {
-                console.log('Sample query:');
-                console.log(`UPDATE Teas SET ${updateString} WHERE name='${teaName}'`);
-                
-                db.run(`UPDATE Teas SET ${updateString} WHERE name='${teaName}'`, (err, row) => {
+                //set modality based on checkbox values
+                if(updatedTea.looseLeaf && updatedTea.teabag) {
+                    updatedTea.modality = 'Loose Leaf, Teabag';
+                }
+                else if(updatedTea.looseLeaf) {
+                    updatedTea.modality = 'Loose Leaf';
+                }
+                else if(updatedTea.teabag) {
+                    updatedTea.modality = 'Teabag';
+                }
+
+                let updateString = compareTeas(currentTea, updatedTea).toString();
+
+                console.log("updateString before removing undefined: " + updateString);
+
+                //replace any undefined values with empty string
+                updateString = updateString.replaceAll("undefined", "");
+
+                console.log("updateString: " + updateString);
+
+                if(updateString) {
+                    //console.log('Sample query:');
+                    //console.log(`UPDATE Teas SET ${updateString} WHERE name='${teaName}'`);
                     
-                    if(err) {
-                        reject(err);
-                    }
-                    else {
-                        resolve(row);
-                    }
-                });
-            }
+                    db.run(`UPDATE Teas SET ${updateString} WHERE name='${teaName}'`, (err, row) => {
+                        
+                        if(err) {
+                            reject(err);
+                            console.log('found an error');
+                        }
+                        else {
+                            console.log('trying to resolve!');
+                            resolve(row);
+                        }
+                    });
+                }
+                else {
+                    reject(new Error("No Changes Made"));
+                }
+            });
         });
     }); 
 }
@@ -146,4 +171,4 @@ function compareTeas(tea1, tea2) {
     return changes;
 }
 
-module.exports = {getTableData, getTeaByName, addNewTea, compareTeas, deleteTea};
+module.exports = {getTableData, getTeaByName, addNewTea, compareTeas, deleteTea, updateTea};

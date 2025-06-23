@@ -74,6 +74,12 @@ app.get('/', (req, res) => {
     res.send(html);
 });
 
+app.put('/teas/:teaName', (req, res, next) => {
+    console.log('UPDATE /teas/:teaName received');
+
+    db.updateTea(req.params.teaName, req.body).then(results => {res.status(200).send(results);});
+});
+
 app.delete('/teas/:teaName', (req, res, next) => {
     console.log('DELETE /teas/:teaName received');
     db.deleteTea(req.params.teaName).then(result => {
@@ -83,7 +89,6 @@ app.delete('/teas/:teaName', (req, res, next) => {
         res.status(500).send('Internal Server Error');
     });
 });
-
 
 app.listen(PORT, (err) => {
     if(err) {

@@ -13,14 +13,14 @@ fetch('/teas').then(response => response.json())
 
             card.addEventListener('click', e => {
                 let currentTile;
+                let id;
                 if(e.target.className == 'tile') {
                     //target is tile
-                    let id = e.target.id.substring(4);
+                    id = e.target.id.substring(4);
                     currentTile = document.getElementById(`tile${id}`);
                 }
                 else {
                     //parent of target is tile
-                    let id;
                     if(e.target.parentElement.id.includes('modal')) {
                         id = e.target.parentElement.id.substring(5);
                     }
@@ -30,32 +30,37 @@ fetch('/teas').then(response => response.json())
                     currentTile = document.getElementById(`tile${id}`);
                 }
 
-                const modal = currentTile.children[currentTile.children.length - 1];
+                let modal;
 
-                if(!modal.open) {
-                    modal.innerHTML = `<img class="tea-photo" src="./images/${tea.img_src}" alt="test tea photo">  
-                        <h2 class="tea-name">${tea.name}</h2>
-                        <ul>
-                            <li>Modality: ${tea.modality}</li>
-                            <li>How To Make: ${tea.instructions}</li>
-                            <li>Caffeinated: ${tea.caffeinated}</li>
-                            <li>Flavor Profile: ${tea.flavors}</li>
-                            <li>Last Drank: ${tea.last_drank}</li>
-                            <li>Health Benefits: ${tea.health_qualities}</li>
-                        </ul>
-                        <button class="delete-button" onclick="deleteTeaClicked(\'${tea.name}\')">Delete Tea</button>
-                        <button class="edit-button" onclick="">Edit Tea Info</button>`;
-                    modal.showModal();
-                } 
-                else {
-                    const modalDimensions = modal.getBoundingClientRect();
-                    if (
-                        e.clientX < modalDimensions.left ||
-                        e.clientX > modalDimensions.right ||
-                        e.clientY < modalDimensions.top ||
-                        e.clientY > modalDimensions.bottom
-                    ) {
-                    modal.close();
+                if(currentTile) {
+                    modal = currentTile.querySelector('dialog');
+                    if(!modal.open) {
+                        modal.innerHTML = `<img class="tea-photo" src="./images/${tea.img_src}" alt="test tea photo">  
+                            <h2 class="tea-name">${tea.name}</h2>
+                            <div id="modalInfo">
+                                <ul>
+                                    <li>Modality: ${tea.modality}</li>
+                                    <li>How To Make: ${tea.instructions}</li>
+                                    <li>Caffeinated: ${tea.caffeinated}</li>
+                                    <li>Flavor Profile: ${tea.flavors}</li>
+                                    <li>Last Drank: ${tea.last_drank}</li>
+                                    <li>Health Benefits: ${tea.health_qualities}</li>
+                                </ul>
+                                <button class="delete-button" onclick="deleteTeaClicked(\'${tea.name}\')">Delete Tea</button>
+                                <button class="edit-button" onclick="editTeaClicked(\'${tea.name}\', ${id})">Edit Tea Info</button>
+                            </div>`;
+                        modal.showModal();
+                    } 
+                    else {
+                        const modalDimensions = modal.getBoundingClientRect();
+                        if (
+                            e.clientX < modalDimensions.left ||
+                            e.clientX > modalDimensions.right ||
+                            e.clientY < modalDimensions.top ||
+                            e.clientY > modalDimensions.bottom
+                        ) {
+                        modal.close();
+                        }
                     }
                 }
             });
@@ -94,24 +99,28 @@ function addTeaClicked() {
     //html for tea creation form
     addTeaModal.innerHTML = '\
     <form id="addTeaForm">\
-        <label for="teaName">Tea Name:</label><br>\
-        <input type="text" id="teaName" name="teaName"><br><br>\
+        <label for="teaName">Tea Name:</label>\
+        <input type="text" id="teaName" name="teaName" class="addTeaTextBox">\
         <p>Modality:</p>\
         <input type="checkbox" id="looseLeaf" name="looseLeaf" value="Loose Leaf">\
         <label for="looseLeaf">Loose Leaf</label>\
         <input type="checkbox" id="teabag" name="teabag" value="Teabag">\
-        <label for="teabag">Teabag</label><br><br>\
-        <label for="howToMake">How To Make: </label><br>\
-        <input type="text" id="howToMake" name="instructions"><br><br>\
-        <input type="radio" id="caffeinated" name="caffeine_content" value="caffeinated">\
-        <label for="caffeinated">Caffeinated</label><br>\
-        <input type="radio" id="non-caffeinated" name="caffeine_content" value="non-caffeinated">\
-        <label for="non-caffeinated">Non-Caffeinated</label><br><br>\
-        <label for="flavor">Flavor Profile: </label><br>\
-        <input type="text" id="flavor" name="flavor"><br><br>\
-        <label for="health">Health Benefits: </label><br>\
-        <input type="text" id="health" name="health"><br><br>\
-        <input type="submit" id="submit" name="submit" value="Add Tea">\
+        <label for="teabag">Teabag</label>\
+        <label for="howToMake">How To Make: </label>\
+        <input type="text" id="howToMake" name="instructions" class="addTeaTextBox">\
+        <div class="caffeineContent">\
+            <input type="radio" id="caffeinated" name="caffeine_content" value="Caffeinated">\
+            <label for="caffeinated">Caffeinated</label>\
+            <input type="radio" id="non-caffeinated" name="caffeine_content" value="Non-Caffeinated">\
+            <label for="non-caffeinated">Non-Caffeinated</label>\
+        </div>\
+        <label for="flavors">Flavor Profile: </label>\
+        <input type="text" id="flavors" name="flavors" class="addTeaTextBox">\
+        <label for="health_qualities">Health Benefits: </label>\
+        <input type="text" id="health_qualities" name="health_qualities" class="addTeaTextBox">\
+        <label for="pin">Admin Password</label>\
+        <input type="text" id="pin" name="pin" class="addTeaTextBox">\
+        <input type="submit" class="addTeaButton" id="submit" name="submit" value="Add Tea">\
     </form>';
 
     //allow user to click out of modal
@@ -137,6 +146,8 @@ function addTeaClicked() {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
+        //let promptValue = prompt('Enter Admin Password');
+
         // Send POST request
         await fetch('/teas', {
             method: 'POST',
@@ -147,8 +158,6 @@ function addTeaClicked() {
         // Redirect to homepage
         window.location.assign("http://localhost:4001/");
     });
-
-    addTeaModal.style = "font-size: 20px; width: 15%; text-align: center";
 
     addTeaModal.showModal();
 }
@@ -161,6 +170,102 @@ async function deleteTeaClicked(teaName) {
 
     // Redirect to homepage
     window.location.assign("http://localhost:4001/");
+}
+
+async function editTeaClicked(teaName, modalId) {
+    //get current info
+    await fetch(`/teas/${teaName}`, {
+        method: 'GET'
+    }).then(response => response.json())
+    .then(currentTea => {
+        const currentModal = document.getElementById(`modal${modalId}`);
+
+        const modalBody = currentModal.querySelector('#modalInfo');
+
+        //replace null values with empty string
+        for (let [key, value] of Object.entries(currentTea)) {
+            if(value == null)
+            {
+                currentTea[key] = "";
+            }
+        }
+
+        //set default values of checkboxes and radio button
+        let looseLeafChecked = "";
+        let teabagChecked = "";
+        let caffeinatedChecked = "";
+        let nonCaffeinatedChecked = "";
+
+        if(currentTea.modality.includes("Loose Leaf")) {
+            looseLeafChecked = "checked";
+        }
+
+        if(currentTea.modality.includes("Teabag")) {
+            teabagChecked = "checked";
+        }
+
+        if(currentTea.caffeinated.includes('Non')) {
+            nonCaffeinatedChecked = "checked";
+        }
+        else if(currentTea.caffeinated) {
+            caffeinatedChecked = "checked";
+        }
+
+        //update innerHTML and put old info in the text boxes
+        modalBody.innerHTML = `\
+            <form id="updateTeaForm">\
+                <label for="name">Tea Name:</label>\
+                <input type="text" id="name" name="name" class="addTeaTextBox" value="${currentTea.name}">\
+                <p>Modality:</p><br>\
+                <input type="checkbox" id="looseLeaf" name="looseLeaf" value="Loose Leaf" ${looseLeafChecked}>\
+                <label for="looseLeaf">Loose Leaf</label>\
+                <input type="checkbox" id="teabag" name="teabag" value="Teabag" ${teabagChecked}>\
+                <label for="teabag">Teabag</label>\
+                <label for="howToMake">How To Make: </label>\
+                <input type="text" id="howToMake" name="instructions" class="addTeaTextBox" value="${currentTea.instructions}">\
+                <div class="caffeineContent">\
+                    <input type="radio" id="caffeinated" name="caffeinated" value="Caffeinated" ${caffeinatedChecked}>\
+                    <label for="caffeinated">Caffeinated</label>\
+                    <input type="radio" id="non-caffeinated" name="caffeinated" value="Non-Caffeinated" ${nonCaffeinatedChecked}>\
+                    <label for="non-caffeinated">Non-Caffeinated</label>\
+                </div>\
+                <label for="flavor">Flavor Profile: </label>\
+                <input type="text" id="flavors" name="flavors" class="addTeaTextBox" value="${currentTea.flavors}">\
+                <label for="health_qualities">Health Benefits: </label>\
+                <input type="text" id="health_qualities" name="health_qualities" class="addTeaTextBox" value="${currentTea.health_qualities}">\
+                <label for="pin">Admin Password</label>\
+                <input type="text" id="pin" name="pin" class="addTeaTextBox">\
+                <input type="submit" class="updateTeaButton" id="submit" name="submit" value="Update Tea">\
+            </form>`;
+
+        //add event listener to update button
+        const form = modalBody.querySelector('#updateTeaForm');
+        form.addEventListener('submit', async function(e) {
+            
+            //has not been changed to be used for Update yet
+            
+            e.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            //let promptValue = prompt('Enter Admin Password');
+            // Send PUT request
+            await fetch(`/teas/${teaName}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+
+            // Redirect to homepage
+            window.location.assign("http://localhost:4001/");
+        });
+    });
+
+    
+    //do backend stuff
+
 }
 
 /* TODO add checkboxed functionality and implement searched method to clean code
@@ -187,6 +292,6 @@ function checkboxed() {
         }
     }
 }
-    */
+*/
 
 window.searchTeas = searchTeas;
