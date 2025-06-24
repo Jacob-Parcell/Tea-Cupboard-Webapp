@@ -51,15 +51,8 @@ app.get('/', (req, res) => {
         <body>
             <header>
             <h1>Skylar's Tea Cupboard</h1>
+                <input type="text" id="searchBar" onkeyup="searchTeas()" placeholder="Search.."></br>
             </header>
-            
-            <div class="search_header">
-            <input type="text" id="searchBar" onkeyup="searchTeas()" placeholder="Search.."></br>
-            <input type="checkbox" id="caffeinated">
-            <label for="caffeinated">Caffeinated</label>
-            <input type="checkbox" id="non-caffeinated">
-            <label for="non-caffeinated">Non-Caffeinated</label>
-            </div>
             <div>
                 <button type="button" id="createTeaButton" onclick="addTeaClicked()">+</button>
             </div>
