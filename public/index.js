@@ -100,26 +100,27 @@ function addTeaClicked() {
     addTeaModal.innerHTML = '\
     <form id="addTeaForm">\
         <label for="teaName">Tea Name:</label>\
-        <input type="text" id="teaName" name="teaName" class="addTeaTextBox">\
+        <input type="text" id="teaName" name="teaName" class="addTeaTextBox"><br>\
         <p>Modality:</p>\
         <input type="checkbox" id="looseLeaf" name="looseLeaf" value="Loose Leaf">\
         <label for="looseLeaf">Loose Leaf</label>\
         <input type="checkbox" id="teabag" name="teabag" value="Teabag">\
         <label for="teabag">Teabag</label>\
         <label for="howToMake">How To Make: </label>\
-        <input type="text" id="howToMake" name="instructions" class="addTeaTextBox">\
+        <textarea type="text" id="howToMake" name="instructions" class="addTeaTextBox"></textarea>\
+        <label for="caffeineContent">Caffeine Content:</label>\
         <div class="caffeineContent">\
             <input type="radio" id="caffeinated" name="caffeine_content" value="Caffeinated">\
-            <label for="caffeinated">Caffeinated</label>\
+            <label for="caffeinated">Caffeinated</label><br>\
             <input type="radio" id="non-caffeinated" name="caffeine_content" value="Non-Caffeinated">\
             <label for="non-caffeinated">Non-Caffeinated</label>\
         </div>\
         <label for="flavors">Flavor Profile: </label>\
-        <input type="text" id="flavors" name="flavors" class="addTeaTextBox">\
+        <textarea type="text" id="flavors" name="flavors" class="addTeaTextBox"></textarea>\
         <label for="health_qualities">Health Benefits: </label>\
-        <input type="text" id="health_qualities" name="health_qualities" class="addTeaTextBox">\
+        <textarea type="text" id="health_qualities" name="health_qualities" class="addTeaTextBox"></textarea>\
         <label for="pin">Admin Password</label>\
-        <input type="text" id="pin" name="pin" class="addTeaTextBox">\
+        <input type="password" id="pin" name="pin" maxlength="4" size="4" class="addTeaTextBox">\
         <input type="submit" class="addTeaButton" id="submit" name="submit" value="Add Tea">\
     </form>';
 

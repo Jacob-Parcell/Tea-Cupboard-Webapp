@@ -88,6 +88,8 @@ main {
 
 .addTeaTextBox {
     width: 40%;
+    overflow-wrap: normal;
+    padding: 5px;
 }
 
 #addTeaForm {
@@ -127,6 +129,24 @@ main {
     width: 40%;
 }
 
+input:checked + label {
+    background-color: teal;
+    color: #FFF;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+#addTeaForm input[type="radio"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+
+.caffeineContent {
+    text-align: left;
+    
+}
+
 dialog::backdrop {
     background-color: hsl(26 87.4% 68.5%);
     opacity: 0.5;
@@ -134,9 +154,15 @@ dialog::backdrop {
 
 dialog {
     font-size: 16px;
-    flex: 1 0 300px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     border-radius: 10px;
+    min-width: 400px;
+}
+
+label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
