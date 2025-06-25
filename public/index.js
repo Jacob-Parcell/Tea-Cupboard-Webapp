@@ -35,17 +35,35 @@ fetch('/teas').then(response => response.json())
                 if(currentTile) {
                     modal = currentTile.querySelector('dialog');
                     if(!modal.open) {
-                        modal.innerHTML = `<img class="tea-photo" src="./images/${tea.img_src}" alt="test tea photo">  
+                        modal.innerHTML = `<img class="tea-photo-small" src="./images/${tea.img_src}" alt="test tea photo">  
                             <h2 class="tea-name">${tea.name}</h2>
                             <div id="modalInfo">
-                                <ul>
-                                    <li>Modality: ${tea.modality}</li>
-                                    <li>How To Make: ${tea.instructions}</li>
-                                    <li>Caffeinated: ${tea.caffeinated}</li>
-                                    <li>Flavor Profile: ${tea.flavors}</li>
-                                    <li>Last Drank: ${tea.last_drank}</li>
-                                    <li>Health Benefits: ${tea.health_qualities}</li>
-                                </ul>
+                                <table class="tea-info-table">
+                                    <tr>
+                                        <th class="tea-attribute-column">Modality</th>
+                                        <th class="tea-value-column">${tea.modality}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="tea-attribute-column">How To Make</th>
+                                        <th class="tea-value-column">${tea.instructions}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="tea-attribute-column">Caffeinated</th>
+                                        <th class="tea-value-column">${tea.caffeinated}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="tea-attribute-column">Flavor Profile</th>
+                                        <th class="tea-value-column">${tea.flavors}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="tea-attribute-column">Last Drank</th>
+                                        <th class="tea-value-column">${tea.last_drank}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="tea-attribute-column">Health Benefits</th>
+                                        <th class="tea-value-column">${tea.health_qualities}</th>
+                                    </tr>
+                                </table>
                                 <button class="delete-button" onclick="deleteTeaClicked(\'${tea.name}\')">Delete Tea</button>
                                 <button class="edit-button" onclick="editTeaClicked(\'${tea.name}\', ${id})">Edit Tea Info</button>
                             </div>`;
@@ -98,14 +116,16 @@ function addTeaClicked() {
 
     //html for tea creation form
     addTeaModal.innerHTML = '\
-    <form id="addTeaForm" class="teaForm">\
+    <form class="teaForm">\
         <label for="teaName">Tea Name:</label>\
-        <input type="text" id="teaName" name="teaName" class="teaTextBox"><br>\
-        <p>Modality:</p>\
-        <input type="checkbox" id="looseLeaf" name="looseLeaf" value="Loose Leaf">\
-        <label for="looseLeaf">Loose Leaf</label>\
-        <input type="checkbox" id="teabag" name="teabag" value="Teabag">\
-        <label for="teabag">Teabag</label>\
+        <input type="text" id="teaName" name="teaName" class="teaTextBox">\
+        <label for="modality">Modality:</label>\
+        <div class="modality">\
+            <input type="checkbox" id="looseLeaf" name="looseLeaf" value="Loose Leaf">\
+            <label for="looseLeaf">Loose Leaf</label>\
+            <input type="checkbox" id="teabag" name="teabag" value="Teabag">\
+            <label for="teabag">Teabag</label>\
+        </div>\
         <label for="howToMake">How To Make: </label>\
         <textarea type="text" id="howToMake" name="instructions" class="teaTextBox"></textarea>\
         <label for="caffeineContent">Caffeine Content:</label>\
@@ -121,7 +141,7 @@ function addTeaClicked() {
         <textarea type="text" id="health_qualities" name="health_qualities" class="teaTextBox"></textarea>\
         <label for="pin">Admin Password</label>\
         <input type="password" id="pin" name="pin" maxlength="4" size="4" class="teaTextBox">\
-        <span style="width: 100%"><input type="submit" class="addTeaButton" id="submit" name="submit" value="Add Tea"></span>\
+        <input type="submit" class="addTeaButton" id="submit" name="submit" value="Add Tea">\
     </form>';
 
     //allow user to click out of modal
@@ -133,13 +153,13 @@ function addTeaClicked() {
             e.clientY < modalDimensions.top ||
             e.clientY > modalDimensions.bottom
         ) {
-            addTeaModal.close();
+            addTeaModal.remove();
         }
     });
 
     document.body.appendChild(addTeaModal);
 
-    const form = addTeaModal.querySelector('#addTeaForm');
+    const form = addTeaModal.querySelector('.teaForm');
     form.addEventListener('submit', async function(e) {
         
         e.preventDefault(); // Prevent default form submission
@@ -162,6 +182,7 @@ function addTeaClicked() {
 
     addTeaModal.showModal();
 }
+
 
 async function deleteTeaClicked(teaName) {
     
@@ -214,34 +235,36 @@ async function editTeaClicked(teaName, modalId) {
 
         //update innerHTML and put old info in the text boxes
         modalBody.innerHTML = `\
-            <form id="updateTeaForm" class="teaForm">\
-                <label for="name">Tea Name:</label>\
-                <input type="text" id="name" name="name" class="teaTextBox" value="${currentTea.name}"><br>\
-                <p>Modality:</p>\
-                <input type="checkbox" id="looseLeaf" name="looseLeaf" value="Loose Leaf" ${looseLeafChecked}>\
-                <label for="looseLeaf">Loose Leaf</label>\
-                <input type="checkbox" id="teabag" name="teabag" value="Teabag" ${teabagChecked}>\
-                <label for="teabag">Teabag</label>\
-                <label for="howToMake">How To Make: </label>\
-                <textarea type="text" id="howToMake" name="instructions" class="teaTextBox" value="${currentTea.instructions}"></textarea>\
+            <form id="updateTeaForm${modalId}" class="teaForm">\
+                <label for="name${modalId}">Tea Name:</label>\
+                <input type="text" id="name${modalId}" name="name" class="teaTextBox" value="${currentTea.name}">\
+                <label for="modality">Modality:</label>\
+                <div class="modality">\
+                    <input type="checkbox" id="looseLeaf${modalId}" name="looseLeaf" value="Loose Leaf" ${looseLeafChecked}>\
+                    <label for="looseLeaf${modalId}">Loose Leaf</label>\
+                    <input type="checkbox" id="teabag${modalId}" name="teabag" value="Teabag" ${teabagChecked}>\
+                    <label for="teabag${modalId}">Teabag</label>\
+                </div>\
+                <label for="howToMake${modalId}">How To Make: </label>\
+                <textarea type="text" id="howToMake${modalId}" name="instructions" class="teaTextBox">${currentTea.instructions}</textarea>\
                 <label for="caffeineContent">Caffeine Content:</label>\
                 <div class="caffeineContent">\
-                    <input type="radio" id="caffeinated" name="caffeinated" value="Caffeinated" ${caffeinatedChecked}>\
-                    <label for="caffeinated">Caffeinated</label>\
-                    <input type="radio" id="non-caffeinated" name="caffeinated" value="Non-Caffeinated" ${nonCaffeinatedChecked}>\
-                    <label for="non-caffeinated">Non-Caffeinated</label>\
+                    <input type="radio" id="caffeinated${modalId}" name="caffeinated" value="Caffeinated" ${caffeinatedChecked}>\
+                    <label for="caffeinated${modalId}">Caffeinated</label>\
+                    <input type="radio" id="non-caffeinated${modalId}" name="caffeinated" value="Non-Caffeinated" ${nonCaffeinatedChecked}>\
+                    <label for="non-caffeinated${modalId}">Non-Caffeinated</label>\
                 </div>\
-                <label for="flavor">Flavor Profile: </label>\
-                <textarea type="text" id="flavors" name="flavors" class="teaTextBox" value="${currentTea.flavors}"></textarea>\
-                <label for="health_qualities">Health Benefits: </label>\
-                <textarea type="text" id="health_qualities" name="health_qualities" class="teaTextBox" value="${currentTea.health_qualities}"></textarea>\
-                <label for="pin">Admin Password</label>\
-                <input type="text" id="pin" name="pin" class="teaTextBox">\
-                <span style="width: 100%"><input type="submit" class="updateTeaButton" id="submit" name="submit" value="Update Tea"></span>\
+                <label for="flavor${modalId}">Flavor Profile: </label>\
+                <textarea type="text" id="flavors${modalId}" name="flavors" class="teaTextBox">${currentTea.flavors}</textarea>\
+                <label for="health_qualities${modalId}">Health Benefits: </label>\
+                <textarea type="text" id="health_qualities${modalId}" name="health_qualities" class="teaTextBox">${currentTea.health_qualities}</textarea>\
+                <label for="pin${modalId}">Admin Password</label>\
+                <input type="text" id="pin${modalId}" name="pin" class="teaTextBox">\
+                <input type="submit" class="updateTeaButton" id="submit" name="submit" value="Update Tea">\
             </form>`;
 
         //add event listener to update button
-        const form = modalBody.querySelector('#updateTeaForm');
+        const form = modalBody.querySelector(`#updateTeaForm${modalId}`);
         form.addEventListener('submit', async function(e) {
             
             //has not been changed to be used for Update yet
