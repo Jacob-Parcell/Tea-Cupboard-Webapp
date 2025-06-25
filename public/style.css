@@ -22,6 +22,7 @@ h1 {
     opacity: 0.9;
     margin-bottom: 25px;
     text-shadow: 3px 3px 7px black;
+    text-wrap: nowrap;
 }
 
 #searchBar {
@@ -80,19 +81,20 @@ main {
 }
 */
 
-#addTeaModal {
+/*#addTeaModal {
     font-size: 20px; 
     width: 25%; 
+    max-width: 400px;
     text-align: center;
-}
+}*/
 
-.addTeaTextBox {
+.teaTextBox {
     width: 40%;
     overflow-wrap: normal;
     padding: 5px;
 }
 
-#addTeaForm {
+.teaForm {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -100,6 +102,16 @@ main {
 
 .addTeaButton {
     background-color: green;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    width: 40%;
+}
+
+.updateTeaButton {
+    background-color: blue;
     font-size: 20px;
     font-weight: bold;
     color: white;
@@ -129,18 +141,7 @@ main {
     width: 40%;
 }
 
-input:checked + label {
-    background-color: teal;
-    color: #FFF;
-    border-radius: 8px;
-    padding: 5px;
-}
 
-#addTeaForm input[type="radio"] {
-  opacity: 0;
-  position: fixed;
-  width: 0;
-}
 
 .caffeineContent {
     text-align: left;
@@ -153,13 +154,27 @@ dialog::backdrop {
 }
 
 dialog {
-    font-size: 16px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     border-radius: 10px;
-    min-width: 400px;
+    font-size: 20px; 
+    width: 400px; 
+    text-align: center;
 }
+
+input:checked + label {
+    background-color: teal;
+    color: #FFF;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+/*dialog input[type="radio"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}*/
 
 label {
     display: flex;

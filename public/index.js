@@ -98,16 +98,16 @@ function addTeaClicked() {
 
     //html for tea creation form
     addTeaModal.innerHTML = '\
-    <form id="addTeaForm">\
+    <form id="addTeaForm" class="teaForm">\
         <label for="teaName">Tea Name:</label>\
-        <input type="text" id="teaName" name="teaName" class="addTeaTextBox"><br>\
+        <input type="text" id="teaName" name="teaName" class="teaTextBox"><br>\
         <p>Modality:</p>\
         <input type="checkbox" id="looseLeaf" name="looseLeaf" value="Loose Leaf">\
         <label for="looseLeaf">Loose Leaf</label>\
         <input type="checkbox" id="teabag" name="teabag" value="Teabag">\
         <label for="teabag">Teabag</label>\
         <label for="howToMake">How To Make: </label>\
-        <textarea type="text" id="howToMake" name="instructions" class="addTeaTextBox"></textarea>\
+        <textarea type="text" id="howToMake" name="instructions" class="teaTextBox"></textarea>\
         <label for="caffeineContent">Caffeine Content:</label>\
         <div class="caffeineContent">\
             <input type="radio" id="caffeinated" name="caffeine_content" value="Caffeinated">\
@@ -116,12 +116,12 @@ function addTeaClicked() {
             <label for="non-caffeinated">Non-Caffeinated</label>\
         </div>\
         <label for="flavors">Flavor Profile: </label>\
-        <textarea type="text" id="flavors" name="flavors" class="addTeaTextBox"></textarea>\
+        <textarea type="text" id="flavors" name="flavors" class="teaTextBox"></textarea>\
         <label for="health_qualities">Health Benefits: </label>\
-        <textarea type="text" id="health_qualities" name="health_qualities" class="addTeaTextBox"></textarea>\
+        <textarea type="text" id="health_qualities" name="health_qualities" class="teaTextBox"></textarea>\
         <label for="pin">Admin Password</label>\
-        <input type="password" id="pin" name="pin" maxlength="4" size="4" class="addTeaTextBox">\
-        <input type="submit" class="addTeaButton" id="submit" name="submit" value="Add Tea">\
+        <input type="password" id="pin" name="pin" maxlength="4" size="4" class="teaTextBox">\
+        <span style="width: 100%"><input type="submit" class="addTeaButton" id="submit" name="submit" value="Add Tea"></span>\
     </form>';
 
     //allow user to click out of modal
@@ -214,16 +214,17 @@ async function editTeaClicked(teaName, modalId) {
 
         //update innerHTML and put old info in the text boxes
         modalBody.innerHTML = `\
-            <form id="updateTeaForm">\
+            <form id="updateTeaForm" class="teaForm">\
                 <label for="name">Tea Name:</label>\
-                <input type="text" id="name" name="name" class="addTeaTextBox" value="${currentTea.name}">\
-                <p>Modality:</p><br>\
+                <input type="text" id="name" name="name" class="teaTextBox" value="${currentTea.name}"><br>\
+                <p>Modality:</p>\
                 <input type="checkbox" id="looseLeaf" name="looseLeaf" value="Loose Leaf" ${looseLeafChecked}>\
                 <label for="looseLeaf">Loose Leaf</label>\
                 <input type="checkbox" id="teabag" name="teabag" value="Teabag" ${teabagChecked}>\
                 <label for="teabag">Teabag</label>\
                 <label for="howToMake">How To Make: </label>\
-                <input type="text" id="howToMake" name="instructions" class="addTeaTextBox" value="${currentTea.instructions}">\
+                <textarea type="text" id="howToMake" name="instructions" class="teaTextBox" value="${currentTea.instructions}"></textarea>\
+                <label for="caffeineContent">Caffeine Content:</label>\
                 <div class="caffeineContent">\
                     <input type="radio" id="caffeinated" name="caffeinated" value="Caffeinated" ${caffeinatedChecked}>\
                     <label for="caffeinated">Caffeinated</label>\
@@ -231,12 +232,12 @@ async function editTeaClicked(teaName, modalId) {
                     <label for="non-caffeinated">Non-Caffeinated</label>\
                 </div>\
                 <label for="flavor">Flavor Profile: </label>\
-                <input type="text" id="flavors" name="flavors" class="addTeaTextBox" value="${currentTea.flavors}">\
+                <textarea type="text" id="flavors" name="flavors" class="teaTextBox" value="${currentTea.flavors}"></textarea>\
                 <label for="health_qualities">Health Benefits: </label>\
-                <input type="text" id="health_qualities" name="health_qualities" class="addTeaTextBox" value="${currentTea.health_qualities}">\
+                <textarea type="text" id="health_qualities" name="health_qualities" class="teaTextBox" value="${currentTea.health_qualities}"></textarea>\
                 <label for="pin">Admin Password</label>\
-                <input type="text" id="pin" name="pin" class="addTeaTextBox">\
-                <input type="submit" class="updateTeaButton" id="submit" name="submit" value="Update Tea">\
+                <input type="text" id="pin" name="pin" class="teaTextBox">\
+                <span style="width: 100%"><input type="submit" class="updateTeaButton" id="submit" name="submit" value="Update Tea"></span>\
             </form>`;
 
         //add event listener to update button
