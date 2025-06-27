@@ -21,7 +21,7 @@ Stack: HTML/CSS, Express.js, Node.js, SQLite3
 - [Deployment](#deployment)
 - [Usage](#usage)
 - [Built Using](#built_using)
-- [TODO](../TODO.md)
+- [TODO](./TODO.md)
 
 ## 🧐 About <a name = "about"></a>
 While my partner is the proud owner of over 50 different types of tea, she would default to the same two or three teas because she didn't have a way to browse her extensive tea selection. This webapp addresses this issue by displaying each type of tea with information on brewing instructions and flavor profiles. 
