@@ -15,6 +15,11 @@ let urlEncodedParser = bodyParser.urlencoded({ extended: false });
 
 const db = require('./server/db.js');
 
+const verifyPin = (req, res, next) => {
+    console.log(req.body.pin);
+    next();
+};
+
 app.get('/teas', (req, res, next) => {
     console.log('GET /teas received');
     db.getTableData().then(results => {res.status(200).send(results);});
@@ -25,16 +30,21 @@ app.get('/teas/:teaName', (req, res, next) => {
     db.getTeaByName(req.params.teaName).then(result => {res.status(200).send(result)});
 });
 
-app.post('/teas', urlEncodedParser, (req, res, next) => {
+app.post('/teas', urlEncodedParser, verifyPin, (req, res, next) => {
     console.log('POST received');
-    console.log(req.body.teaName);
+    console.log(req.body);
 
-    db.addNewTea(req.body).then(result => {
-        res.status(201).send(result);
-    }).catch(err => {
-        console.error('Error adding tea:', err);
-        res.status(500).send('Internal Server Error');
-    });
+    if(req.body.teaName == "") {
+        res.status(500).send('Tea Name Required');
+    }
+    else {
+        db.addNewTea(req.body).then(result => {
+            res.status(201).send(result);
+        }).catch(err => {
+            console.error('Error adding tea:', err);
+            res.status(500).send('Internal Server Error');
+        });
+    }
 });
 
 app.get('/', (req, res) => {
@@ -51,7 +61,7 @@ app.get('/', (req, res) => {
         <body>
             <header>
             <h1>Skylar's Tea Cupboard</h1>
-                <input type="text" id="searchBar" onkeyup="searchTeas()" placeholder="Search.."></br>
+            <input type="text" id="searchBar" onkeyup="searchTeas()" placeholder="Search.."></br>
             </header>
             <div>
                 <button type="button" id="createTeaButton" onclick="addTeaClicked()">+</button>

@@ -35,7 +35,8 @@ fetch('/teas').then(response => response.json())
                 if(currentTile) {
                     modal = currentTile.querySelector('dialog');
                     if(!modal.open) {
-                        modal.innerHTML = `<img class="tea-photo-small" src="./images/${tea.img_src}" alt="test tea photo">  
+                        modal.innerHTML = `<button type="button" class="btn-close" aria-label="Close">X</button>
+                        <img class="tea-photo-small" src="./images/${tea.img_src}" alt="test tea photo">  
                             <h2 class="tea-name">${tea.name}</h2>
                             <div id="modalInfo">
                                 <table class="tea-info-table">
@@ -68,6 +69,13 @@ fetch('/teas').then(response => response.json())
                                 <button class="edit-button" onclick="editTeaClicked(\'${tea.name}\', ${id})">Edit Tea Info</button>
                             </div>`;
                         modal.showModal();
+
+                        /*const closeButton = modal.querySelector('.btn-close');
+                        console.log(closeButton.parentElement);
+                        closeButton.addEventListener('click', e => {
+                            console.log('click detected');
+                            closeButton.parentElement.style.display-"none";
+                        });*/
                     } 
                     else {
                         const modalDimensions = modal.getBoundingClientRect();
@@ -86,6 +94,7 @@ fetch('/teas').then(response => response.json())
             
             const modal = document.createElement('dialog');
             modal.id = `modal${counter++}`;
+
             card.appendChild(modal);
         });
     })
@@ -118,29 +127,29 @@ function addTeaClicked() {
     addTeaModal.innerHTML = '\
     <form class="teaForm">\
         <label for="teaName">Tea Name:</label>\
-        <input type="text" id="teaName" name="teaName" class="teaTextBox">\
+        <input type="text" id="teaName" name="teaName" class="tea-name-text-box">\
         <label for="modality">Modality:</label>\
-        <div class="modality">\
+        <div class="modality" style="display: flex; flex-direction: row;">\
             <input type="checkbox" id="looseLeaf" name="looseLeaf" value="Loose Leaf">\
-            <label for="looseLeaf">Loose Leaf</label>\
+            <label for="looseLeaf" class="radio-label">Loose Leaf</label>\
             <input type="checkbox" id="teabag" name="teabag" value="Teabag">\
-            <label for="teabag">Teabag</label>\
+            <label for="teabag" class="radio-label">Teabag</label>\
         </div>\
         <label for="howToMake">How To Make: </label>\
         <textarea type="text" id="howToMake" name="instructions" class="teaTextBox"></textarea>\
         <label for="caffeineContent">Caffeine Content:</label>\
         <div class="caffeineContent">\
             <input type="radio" id="caffeinated" name="caffeine_content" value="Caffeinated">\
-            <label for="caffeinated">Caffeinated</label><br>\
+            <label for="caffeinated" class="radio-label">Caffeinated</label><br>\
             <input type="radio" id="non-caffeinated" name="caffeine_content" value="Non-Caffeinated">\
-            <label for="non-caffeinated">Non-Caffeinated</label>\
+            <label for="non-caffeinated" class="radio-label">Non-Caffeinated</label>\
         </div>\
         <label for="flavors">Flavor Profile: </label>\
         <textarea type="text" id="flavors" name="flavors" class="teaTextBox"></textarea>\
         <label for="health_qualities">Health Benefits: </label>\
         <textarea type="text" id="health_qualities" name="health_qualities" class="teaTextBox"></textarea>\
         <label for="pin">Admin Password</label>\
-        <input type="password" id="pin" name="pin" maxlength="4" size="4" class="teaTextBox">\
+        <input type="password" id="pin" name="pin" maxlength="4" size="4" class="admin-pin-text-box">\
         <input type="submit" class="addTeaButton" id="submit" name="submit" value="Add Tea">\
     </form>';
 
@@ -237,29 +246,29 @@ async function editTeaClicked(teaName, modalId) {
         modalBody.innerHTML = `\
             <form id="updateTeaForm${modalId}" class="teaForm">\
                 <label for="name${modalId}">Tea Name:</label>\
-                <input type="text" id="name${modalId}" name="name" class="teaTextBox" value="${currentTea.name}">\
+                <input type="text" id="name${modalId}" name="name" class="tea-name-text-box" value="${currentTea.name}">\
                 <label for="modality">Modality:</label>\
-                <div class="modality">\
+                <div class="modality" style="display: flex; flex-direction: row;">\
                     <input type="checkbox" id="looseLeaf${modalId}" name="looseLeaf" value="Loose Leaf" ${looseLeafChecked}>\
-                    <label for="looseLeaf${modalId}">Loose Leaf</label>\
+                    <label for="looseLeaf${modalId}" class="radio-label">Loose Leaf</label>\
                     <input type="checkbox" id="teabag${modalId}" name="teabag" value="Teabag" ${teabagChecked}>\
-                    <label for="teabag${modalId}">Teabag</label>\
+                    <label for="teabag${modalId}" class="radio-label">Teabag</label>\
                 </div>\
                 <label for="howToMake${modalId}">How To Make: </label>\
                 <textarea type="text" id="howToMake${modalId}" name="instructions" class="teaTextBox">${currentTea.instructions}</textarea>\
                 <label for="caffeineContent">Caffeine Content:</label>\
                 <div class="caffeineContent">\
                     <input type="radio" id="caffeinated${modalId}" name="caffeinated" value="Caffeinated" ${caffeinatedChecked}>\
-                    <label for="caffeinated${modalId}">Caffeinated</label>\
+                    <label for="caffeinated${modalId}" class="radio-label">Caffeinated</label>\
                     <input type="radio" id="non-caffeinated${modalId}" name="caffeinated" value="Non-Caffeinated" ${nonCaffeinatedChecked}>\
-                    <label for="non-caffeinated${modalId}">Non-Caffeinated</label>\
+                    <label for="non-caffeinated${modalId}" class="radio-label">Non-Caffeinated</label>\
                 </div>\
                 <label for="flavor${modalId}">Flavor Profile: </label>\
                 <textarea type="text" id="flavors${modalId}" name="flavors" class="teaTextBox">${currentTea.flavors}</textarea>\
                 <label for="health_qualities${modalId}">Health Benefits: </label>\
                 <textarea type="text" id="health_qualities${modalId}" name="health_qualities" class="teaTextBox">${currentTea.health_qualities}</textarea>\
                 <label for="pin${modalId}">Admin Password</label>\
-                <input type="text" id="pin${modalId}" name="pin" class="teaTextBox">\
+                <input type="password" id="pin${modalId}" name="pin" maxlength="4" size="4" class="admin-pin-text-box">\
                 <input type="submit" class="updateTeaButton" id="submit" name="submit" value="Update Tea">\
             </form>`;
 

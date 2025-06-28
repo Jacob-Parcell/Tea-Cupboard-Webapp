@@ -10,15 +10,15 @@ header {
     text-align: center;
     padding: 20px;
     background-image: url("/images/Tea Banner.png");
-    background-size: 1400px 800px;
+    background-size: 700px 400px;
     background-repeat: no-repeat;
-    background-position: 50% -200px;
-    height: 500px;
+    background-position: 50% -50px;
+    height: 300px;
 }
 
 h1 {
     font-family: Garamond;
-    font-size: 70px;
+    font-size: 8vw;
     opacity: 0.9;
     margin-bottom: 25px;
     text-shadow: 3px 3px 7px black;
@@ -34,15 +34,25 @@ h1 {
 }
 
 main {
-    max-width: 800px;
-    margin: 20px auto;
+    max-width: 1200px;
+    padding: 0px 5%;
+}
+
+.btn-close {
+    color: black;
+    opacity: .5;
+    position: absolute;
+    right: 5%;
+    top: 2%;
+    font-size: 30px;
+    border-radius: 5%;
 }
 
 #createTeaButton {
     position: fixed;
     text-align: center;
-    right: 5%;
-    bottom: 5%;
+    right: 2%;
+    bottom: 2%;
     font-size: 20px;
     height: 100px;
     width: 100px;
@@ -55,7 +65,7 @@ main {
     display: grid;
     flex-wrap: wrap;
     gap: 20px;
-    grid-template-columns: auto auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .tea-photo {
@@ -97,10 +107,26 @@ main {
     text-align: center;
 }*/
 
+.tea-name-text-box {
+    width: 95%;
+    overflow-wrap: normal;
+    padding: 5px;
+    font-family: 'Arial', sans-serif;
+}
+
+.admin-pin-text-box {
+    width: 15%;
+    overflow-wrap: normal;
+    padding: 5px;
+    font-family: 'Arial', sans-serif;
+}
+
 .teaTextBox {
     width: 95%;
     overflow-wrap: normal;
     padding: 5px;
+    font-family: 'Arial', sans-serif;
+    height: 100px;
 }
 
 .teaForm {
@@ -185,6 +211,8 @@ main {
 
 .caffeineContent {
     text-align: left;
+    display: flex; 
+    flex-direction: row;
 }
 
 dialog::backdrop {
@@ -192,7 +220,7 @@ dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-dialog {
+dialog[open] {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -225,4 +253,18 @@ label {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-basis: 50%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.radio-label {
+    border: 1px solid black;
+    padding: 5px;
+    border-collapse: collapse;
+    border-radius: 8px;
 }

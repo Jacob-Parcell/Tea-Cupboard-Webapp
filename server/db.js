@@ -7,7 +7,7 @@ function getTableData() {
     
     return new Promise((resolve, reject) => {
         db.serialize(() => {
-            db.all('SELECT * FROM Teas', (err, row) => {
+            db.all('SELECT * FROM Teas ORDER BY name', (err, row) => {
                 
                 if(err) {
                     reject(err);
