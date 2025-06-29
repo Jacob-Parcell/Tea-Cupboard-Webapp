@@ -70,12 +70,12 @@ fetch('/teas').then(response => response.json())
                             </div>`;
                         modal.showModal();
 
-                        /*const closeButton = modal.querySelector('.btn-close');
-                        console.log(closeButton.parentElement);
+                        const closeButton = modal.querySelector('.btn-close');
                         closeButton.addEventListener('click', e => {
-                            console.log('click detected');
-                            closeButton.parentElement.style.display-"none";
-                        });*/
+                            //keeps click from being seen by the modal's click handler
+                            e.stopPropagation();
+                            modal.close();
+                        });
                     } 
                     else {
                         const modalDimensions = modal.getBoundingClientRect();
@@ -148,8 +148,6 @@ function addTeaClicked() {
         <textarea type="text" id="flavors" name="flavors" class="teaTextBox"></textarea>\
         <label for="health_qualities">Health Benefits: </label>\
         <textarea type="text" id="health_qualities" name="health_qualities" class="teaTextBox"></textarea>\
-        <label for="pin">Admin Password</label>\
-        <input type="password" id="pin" name="pin" maxlength="4" size="4" class="admin-pin-text-box">\
         <input type="submit" class="addTeaButton" id="submit" name="submit" value="Add Tea">\
     </form>';
 
@@ -172,11 +170,12 @@ function addTeaClicked() {
     form.addEventListener('submit', async function(e) {
         
         e.preventDefault(); // Prevent default form submission
-
+        
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
-        //let promptValue = prompt('Enter Admin Password');
+        let enteredPassword = prompt('Enter Admin Password');
+        data.pin = enteredPassword;
 
         // Send POST request
         await fetch('/teas', {
@@ -195,8 +194,14 @@ function addTeaClicked() {
 
 async function deleteTeaClicked(teaName) {
     
+    let enteredPassword = prompt('Enter Admin Password');
+    const data = {pin: enteredPassword};
+    console.log(data);
+
     await fetch(`/teas/${teaName}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
     });
 
     // Redirect to homepage
@@ -267,21 +272,20 @@ async function editTeaClicked(teaName, modalId) {
                 <textarea type="text" id="flavors${modalId}" name="flavors" class="teaTextBox">${currentTea.flavors}</textarea>\
                 <label for="health_qualities${modalId}">Health Benefits: </label>\
                 <textarea type="text" id="health_qualities${modalId}" name="health_qualities" class="teaTextBox">${currentTea.health_qualities}</textarea>\
-                <label for="pin${modalId}">Admin Password</label>\
-                <input type="password" id="pin${modalId}" name="pin" maxlength="4" size="4" class="admin-pin-text-box">\
                 <input type="submit" class="updateTeaButton" id="submit" name="submit" value="Update Tea">\
             </form>`;
 
         //add event listener to update button
         const form = modalBody.querySelector(`#updateTeaForm${modalId}`);
         form.addEventListener('submit', async function(e) {
-            
-            //has not been changed to be used for Update yet
-            
+                        
             e.preventDefault(); // Prevent default form submission
 
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
+
+            let enteredPassword = prompt('Enter Admin Password');
+            data.pin = enteredPassword;
 
             //let promptValue = prompt('Enter Admin Password');
             // Send PUT request

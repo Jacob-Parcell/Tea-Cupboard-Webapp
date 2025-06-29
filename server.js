@@ -16,8 +16,13 @@ let urlEncodedParser = bodyParser.urlencoded({ extended: false });
 const db = require('./server/db.js');
 
 const verifyPin = (req, res, next) => {
-    console.log(req.body.pin);
-    next();
+    
+    if(req.body.pin == "1234") {
+        next();
+    }
+    else {
+        res.status(400).send('Access Denied. Incorrect Pin');
+    }
 };
 
 app.get('/teas', (req, res, next) => {
@@ -85,6 +90,8 @@ app.put('/teas/:teaName', (req, res, next) => {
 
 app.delete('/teas/:teaName', (req, res, next) => {
     console.log('DELETE /teas/:teaName received');
+    console.log(req.body);
+    console.log(req);
     db.deleteTea(req.params.teaName).then(result => {
         res.status(204).send();
     }).catch(err => {
