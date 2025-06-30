@@ -89,9 +89,6 @@ function updateTea(teaName, updatedTea) {
             getTeaByName(teaName).then(result => {
                 currentTea = result;
 
-                console.log("currentTea: " + currentTea);
-                console.log("updatedTea: " + updatedTea);
-
                 //set modality based on checkbox values
                 if(updatedTea.looseLeaf && updatedTea.teabag) {
                     updatedTea.modality = 'Loose Leaf, Teabag';
@@ -105,16 +102,10 @@ function updateTea(teaName, updatedTea) {
 
                 let updateString = compareTeas(currentTea, updatedTea).toString();
 
-                console.log("updateString before removing undefined: " + updateString);
-
                 //replace any undefined values with empty string
                 updateString = updateString.replaceAll("undefined", "");
 
-                console.log("updateString: " + updateString);
-
                 if(updateString) {
-                    //console.log('Sample query:');
-                    //console.log(`UPDATE Teas SET ${updateString} WHERE name='${teaName}'`);
                     
                     db.run(`UPDATE Teas SET ${updateString} WHERE name='${teaName}'`, (err, row) => {
                         

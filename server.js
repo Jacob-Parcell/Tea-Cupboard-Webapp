@@ -21,7 +21,8 @@ const verifyPin = (req, res, next) => {
         next();
     }
     else {
-        res.status(400).send('Access Denied. Incorrect Pin');
+        console.log('Incorrect Password. Request Denied');
+        res.status(400).send('Access Denied. Incorrect Passwird');
     }
 };
 
@@ -82,16 +83,14 @@ app.get('/', (req, res) => {
     res.send(html);
 });
 
-app.put('/teas/:teaName', (req, res, next) => {
+app.put('/teas/:teaName', verifyPin, (req, res, next) => {
     console.log('UPDATE /teas/:teaName received');
 
     db.updateTea(req.params.teaName, req.body).then(results => {res.status(200).send(results);});
 });
 
-app.delete('/teas/:teaName', (req, res, next) => {
+app.delete('/teas/:teaName', verifyPin, (req, res, next) => {
     console.log('DELETE /teas/:teaName received');
-    console.log(req.body);
-    console.log(req);
     db.deleteTea(req.params.teaName).then(result => {
         res.status(204).send();
     }).catch(err => {
